@@ -7,10 +7,13 @@ import Projects from './components/Projects';
 import Skills from './components/Skills';
 import Blog from './components/Blog';
 import Contact from './components/Contact';
+import { Analytics } from "@vercel/analytics/react"
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
+  // Use Analytics for tracking
 
+  <Analytics />
   useEffect(() => {
     // Check for saved preference or system preference
     const savedMode = localStorage.getItem('darkMode');
