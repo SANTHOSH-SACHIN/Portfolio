@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -9,9 +9,34 @@ import Blog from './components/Blog';
 import Contact from './components/Contact';
 
 function App() {
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    // Check for saved preference or system preference
+    const savedMode = localStorage.getItem('darkMode');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+    if (savedMode !== null) {
+      setDarkMode(savedMode === 'true');
+    } else if (prefersDark) {
+      setDarkMode(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    // Apply dark mode class to document
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('darkMode', 'true');
+    } else {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('darkMode', 'false');
+    }
+  }, [darkMode]);
+
   return (
-    <div className="min-h-screen bg-white">
-      <Header />
+    <div className="min-h-screen bg-light-bg dark:bg-dark-bg text-light-text dark:text-dark-text transition-colors duration-300">
+      <Header darkMode={darkMode} toggleDarkMode={() => setDarkMode(!darkMode)} />
       <main>
         <Hero />
         <About />

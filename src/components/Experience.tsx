@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 import { Briefcase, Calendar } from "lucide-react";
 
 const experiences = [
@@ -29,54 +30,80 @@ const experiences = [
 ];
 
 const Experience = () => {
-    return (
-        <section id="experience" className="py-20 bg-gray-50">
-            <div className="container mx-auto px-4">
-                <h2 className="text-3xl font-bold text-center mb-12">
-                    Experience
-                </h2>
+    // Animation variants
+    const sectionVariant = {
+        hidden: { opacity: 0 },
+        visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
+    };
 
-                <div className="max-w-4xl mx-auto space-y-8">
+    const itemVariant = {
+        hidden: { opacity: 0, y: 20 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+    };
+
+    return (
+        // Updated section background and padding
+        <section id="experience" className="py-20 md:py-28 bg-light-bg/50 dark:bg-dark-bg/50"> {/* Slightly different bg */}
+            <div className="container mx-auto px-4">
+                <motion.h2
+                    className="text-3xl md:text-4xl font-bold text-center mb-16 text-light-text dark:text-dark-text relative pb-2"
+                    variants={itemVariant}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.5 }}
+                >
+                    Experience
+                    {/* Subtle underline effect */}
+                    <span className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-light-primary to-light-secondary dark:from-dark-primary dark:to-dark-secondary rounded-full"></span>
+                </motion.h2>
+
+                <motion.div
+                    className="max-w-4xl mx-auto space-y-10" // Increased spacing
+                    variants={sectionVariant}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.2 }}
+                >
                     {experiences.map((exp, index) => (
-                        <div
+                        <motion.div
                             key={index}
-                            className="bg-white rounded-lg shadow-md p-6 transition-transform hover:-translate-y-1"
+                            className="bg-light-card dark:bg-dark-card rounded-lg shadow-lg border border-light-border dark:border-dark-border p-6 md:p-8 overflow-hidden transition-all duration-300 hover:shadow-xl hover:border-light-primary/30 dark:hover:border-dark-primary/30"
+                            variants={itemVariant}
+                            whileHover={{ y: -5 }} // Lift effect on hover
                         >
-                            <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
-                                <div>
-                                    <h3 className="text-xl font-semibold text-gray-900">
+                            <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-4">
+                                <div className="mb-3 md:mb-0">
+                                    <h3 className="text-xl md:text-2xl font-semibold text-light-text dark:text-dark-text mb-1">
                                         {exp.role}
                                     </h3>
-                                    <p className="text-blue-600 font-medium">
+                                    <p className="text-light-primary dark:text-dark-primary font-medium text-lg">
                                         {exp.company}
                                     </p>
                                 </div>
-                                <div className="flex items-center text-gray-500 mt-2 md:mt-0">
-                                    <Calendar size={16} className="mr-2" />
+                                <div className="flex items-center text-light-text/70 dark:text-dark-text/70 text-sm font-medium bg-light-bg dark:bg-dark-bg px-3 py-1 rounded-full border border-light-border dark:border-dark-border whitespace-nowrap">
+                                    <Calendar size={14} className="mr-2 flex-shrink-0" />
                                     <span>{exp.period}</span>
                                 </div>
                             </div>
 
-                            <p className="text-gray-600 mb-4">
+                            <p className="text-light-text/80 dark:text-dark-text/80 mb-5 leading-relaxed">
                                 {exp.description}
                             </p>
 
-                            <ul className="space-y-2">
+                            <ul className="space-y-2 list-inside">
                                 {exp.highlights.map((highlight, i) => (
-                                    <li key={i} className="flex items-start">
+                                    <li key={i} className="flex items-start text-light-text/90 dark:text-dark-text/90">
                                         <Briefcase
                                             size={16}
-                                            className="mr-2 mt-1 text-blue-600 flex-shrink-0"
+                                            className="mr-3 mt-1 text-light-secondary dark:text-dark-secondary flex-shrink-0" // Use secondary color
                                         />
-                                        <span className="text-gray-600">
-                                            {highlight}
-                                        </span>
+                                        <span>{highlight}</span>
                                     </li>
                                 ))}
                             </ul>
-                        </div>
+                        </motion.div>
                     ))}
-                </div>
+                </motion.div>
             </div>
         </section>
     );
