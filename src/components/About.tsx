@@ -50,7 +50,7 @@ const About = () => {
           {/* Image Section */}
           <motion.div variants={imageVariant}>
             <img
-              src="https://images.unsplash.com/photo-1549692520-acc6669e2f0c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+              src="assets/profile.jpg" // Updated image path
               alt="Professional headshot"
               className="rounded-lg shadow-lg border-4 border-light-card dark:border-dark-card hover:shadow-xl transition-all duration-300 transform hover:scale-105" // Added border and hover effect
             />
